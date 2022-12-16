@@ -303,6 +303,9 @@ void HelpComputer (edict_t *ent)
 {
 	char	string[1024];
 	char	*sk;
+	//KQ BEGIN
+	char objective[] = "Kirby has a flamethrower, \nfire wall, pulse beam, stun abilities \nand wave beam in his arsenal!";
+	char suck[] = "Kirby can also use the blaster \nto suck and spit enemies!";
 
 	if (skill->value == 0)
 		sk = "easy";
@@ -314,7 +317,7 @@ void HelpComputer (edict_t *ent)
 		sk = "hard+";
 
 	// send the layout
-	Com_sprintf (string, sizeof(string),
+	/*Com_sprintf(string, sizeof(string),
 		"xv 32 yv 8 picn help "			// background
 		"xv 202 yv 12 string2 \"%s\" "		// skill
 		"xv 0 yv 24 cstring2 \"%s\" "		// level name
@@ -329,7 +332,24 @@ void HelpComputer (edict_t *ent)
 		level.killed_monsters, level.total_monsters, 
 		level.found_goals, level.total_goals,
 		level.found_secrets, level.total_secrets);
+	*/
+	Com_sprintf(string, sizeof(string),
+		"xv 32 yv 8 picn help "			// background
+		"xv 202 yv 12 string2 \"%s\" "		// skill
+		"xv 0 yv 24 cstring2 \"%s\" "		// level name
+		"xv 0 yv 54 cstring2 \"%s\" "		// help 1
+		"xv 0 yv 110 cstring2 \"%s\" "		// help 2
+		"xv 50 yv 164 string2 \" kills     goals    secrets\" "
+		"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ",
+		sk,
+		"Kirbyquake Help Menu!",
+		objective,
+		suck,
+		level.killed_monsters, level.total_monsters,
+		level.found_goals, level.total_goals,
+		level.found_secrets, level.total_secrets);
 
+	//KQ END
 	gi.WriteByte (svc_layout);
 	gi.WriteString (string);
 	gi.unicast (ent, true);
@@ -385,6 +405,8 @@ void G_SetStats (edict_t *ent)
 	//
 	ent->client->ps.stats[STAT_HEALTH_ICON] = level.pic_health;
 	ent->client->ps.stats[STAT_HEALTH] = ent->health;
+
+	gi.centerprintf(ent, "Welcome to Kirbyquake2 !\nThe blaster weapon is Kirby's way of \nsucking and spitting enemies! \nFire the blaster to find out!\n");
 
 	//
 	// ammo

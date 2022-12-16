@@ -669,7 +669,7 @@ void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_
 #define DEFAULT_SHOTGUN_HSPREAD	1000
 #define DEFAULT_SHOTGUN_VSPREAD	500
 #define DEFAULT_DEATHMATCH_SHOTGUN_COUNT	12
-#define DEFAULT_SHOTGUN_COUNT	12
+#define DEFAULT_SHOTGUN_COUNT	3
 #define DEFAULT_SSHOTGUN_COUNT	20
 
 //
@@ -1080,7 +1080,7 @@ struct edict_s
 
 	edict_t		*mynoise;		// can go in client only
 	edict_t		*mynoise2;
-
+	
 	int			noise_index;
 	int			noise_index2;
 	float		volume;

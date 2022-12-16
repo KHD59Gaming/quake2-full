@@ -19,6 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "g_local.h"
 
+//KQ BEGIN
+int sucked = 0;
+//KQ END
+
 
 /*
 =================
@@ -223,6 +227,8 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 			if (tr.ent->takedamage)
 			{
 				T_Damage (tr.ent, self, self, aimdir, tr.endpos, tr.plane.normal, damage, kick, DAMAGE_BULLET, mod);
+				tr.ent->movetype = 0; // KQ equal to move type none for stun effect
+				M_droptofloor (tr.ent); // KQ amplify stun effect
 			}
 			else
 			{
@@ -325,7 +331,15 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 			mod = MOD_HYPERBLASTER;
 		else
 			mod = MOD_BLASTER;
-		T_Damage (other, self, self->owner, self->velocity, self->s.origin, plane->normal, self->dmg, 1, DAMAGE_ENERGY, mod);
+		//T_Damage (other, self, self->owner, self->velocity, self->s.origin, plane->normal, self->dmg, 1, DAMAGE_ENERGY, mod);
+		if (!sucked) {
+			G_FreeEdict(other);
+			sucked = 1;
+		}
+		else {
+			T_Damage(other, self, self->owner, self->velocity, self->s.origin, plane->normal, 100, 1, DAMAGE_ENERGY, mod);
+			sucked = 0;
+		}
 	}
 	else
 	{

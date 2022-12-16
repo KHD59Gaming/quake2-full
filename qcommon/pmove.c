@@ -1335,7 +1335,7 @@ void Pmove (pmove_t *pmove)
 		PM_CheckJump ();
 
 		PM_Friction ();
-
+		pm->waterlevel = 2; //KQ water physics?
 		if (pm->waterlevel >= 2)
 			PM_WaterMove ();
 		else {
